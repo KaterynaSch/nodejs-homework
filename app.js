@@ -1,25 +1,32 @@
-const express = require('express')
-const logger = require('morgan')
-const cors = require('cors')
+import express from "express";
+//для логування запитів
+import logger from "morgan";
+import cors from "cors";
 
-const contactsRouter = require('./routes/api/contacts')
+import contactsRouter from "./routes/api/contacts-router.js";
 
-const app = express()
+const app = express();
 
-const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
+// налаштування логування
+const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
+// додавання логувння як middleware
 app.use(logger(formatsLogger))
 app.use(cors())
-app.use(express.json())
 
-app.use('/api/contacts', contactsRouter)
+ app.use(express.json())//middleware що перевідяє чи є у об'єкті що надходить contentType
 
+app.use("/api/contacts", contactsRouter)
+
+// обробник ситуації якщо запит прийшов на адресу, якої немає
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' })
 })
 
 app.use((err, req, res, next) => {
-  res.status(500).json({ message: err.message })
+  const {status = 500, message = "Server error"} = err;
+  res.status(status).json({
+     message, })
 })
 
-module.exports = app
+export default app
