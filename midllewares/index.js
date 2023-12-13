@@ -1,1 +1,1 @@
-export {default as isEmptyBody} from "./isemptyBody.js"
+export {default as isEmptyBody} from './isEmptyBody.js';
