@@ -2,21 +2,23 @@ import express from "express";
 
 import contactsController from "../../controllers/contacts-controller.js";
 
-import {isEmptyBody} from "../../midllewares/index.js"//ф-ція перевіряє чи тіло не пусте
+ import {isEmptyBody, isValidId} from "../../midllewares/index.js"//ф-ція перевіряє чи тіло не пусте
 
-import {validateBody} from '../../decorators/index.js'
+ import {validateBody} from '../../decorators/index.js'
 
-import {contactAddSchema, contactUpdateSchema } from "../../schemas/contact-schemas.js";
+ import {contactAddSchema, contactFavoriteSchema, contactUpdateSchema } from "../../models/Contact.js";
 
 const contactsRouter = express.Router()
 
 contactsRouter.get('/', contactsController.getAll);
 
-contactsRouter.get('/:id', contactsController.getById);
+contactsRouter.get('/:id', isValidId, contactsController.getById);
 
 contactsRouter.post('/', isEmptyBody, validateBody(contactAddSchema), contactsController.add);
 
-contactsRouter.put('/:id', isEmptyBody, validateBody(contactUpdateSchema), contactsController.updateById);
+contactsRouter.put('/:id', isValidId, isEmptyBody, validateBody(contactUpdateSchema), contactsController.updateById);
+
+contactsRouter.patch('/:id/favorite', isValidId, isEmptyBody,validateBody(contactFavoriteSchema), contactsController.updateById );
 
 contactsRouter.delete('/:id', contactsController.deleteById);
 

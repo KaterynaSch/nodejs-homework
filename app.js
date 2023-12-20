@@ -4,8 +4,12 @@ import logger from "morgan";//для логування запитів
 
 import cors from "cors";
 
+import dotenv from 'dotenv';// import dotenv from 'dotenv/config'; скорочений варіант
+
+
 import contactsRouter from "./routes/api/contacts-router.js";
 
+dotenv.config();//знаходить .env файл і додає його вміст до глобального об'єкту process.env в момент запуску проекту
 const app = express();
 
 // налаштування логування
