@@ -4,8 +4,8 @@ const isEmptyBody = async(req, res, next) => {
     console.log(req.body);
     const keys = Object.keys(req.body);    
     if(!keys.length) {
-        return next(HttpError(400, "Missing fields"))
+        return next(HttpError(400, "Missing fields"));
     }
-    next();
+    next();    
 }
 export default isEmptyBody;

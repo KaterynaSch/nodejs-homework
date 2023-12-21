@@ -6,9 +6,9 @@ const validateBody = schema => {
         if(error) {
             throw HttpError(400,error.message);
         }
-        next()
+        next();
     }
-    return func
+    return func;
 }
 
 export default validateBody;
