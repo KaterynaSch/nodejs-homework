@@ -20,6 +20,6 @@ contactsRouter.put('/:id', isValidId, isEmptyBody, validateBody(contactUpdateSch
 
 contactsRouter.patch('/:id/favorite', isValidId, isEmptyBodyForFavorite, validateBody(contactFavoriteSchema), contactsController.updateById);
 
-contactsRouter.delete('/:id', contactsController.deleteById);
+contactsRouter.delete('/:id', isValidId, contactsController.deleteById);
 
 export default contactsRouter;

@@ -17,8 +17,8 @@ const contactSchema = new Schema({
         type: Boolean,
         default: false,
     }
-});
-const Contact = model('contact', contactSchema);
+},{versionKey: false}
+);
 
 
 contactSchema.post('save', handleSaveError);
@@ -48,5 +48,7 @@ export const contactUpdateSchema = Joi.object({
 export const contactFavoriteSchema = Joi.object({
     favorite: Joi.boolean().required()    
 });
+
+const Contact = model('contact', contactSchema);
 
 export default Contact;
