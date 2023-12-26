@@ -17,7 +17,11 @@ const contactSchema = new Schema({
         type: Boolean,
         default: false,
     }
-},{versionKey: false}
+},{versionKey: false},
+    // {owner: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'user',
+    // }}
 );
 
 

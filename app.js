@@ -8,6 +8,8 @@ import dotenv from 'dotenv';// import dotenv from 'dotenv/config'; скороч�
 
 import contactsRouter from "./routes/api/contacts-router.js";
 
+import authRouter from "./routes/api/auth-router.js";
+
 dotenv.config();//знаходить .env файл і додає його вміст до глобального об'єкту process.env в момент запуску проекту
 const app = express();
 
@@ -21,6 +23,7 @@ app.use(cors());
 
 app.use(express.json());//middleware що перевідяє чи є у об'єкті що надходить contentType
 
+app.use("/api/auth", authRouter);//група маршрутів аутентифікації
 app.use("/api/contacts", contactsRouter);
 
 // обробник ситуації якщо запит прийшов на адресу, якої немає
