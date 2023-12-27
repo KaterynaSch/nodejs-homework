@@ -2,7 +2,7 @@ import express from "express";
 
 import authController from "../../controllers/auth-controller.js";
 
-import {isEmptyBody} from '../../midllewares/index.js'
+import {authenticate, isEmptyBody} from '../../midllewares/index.js'
 
 import {validateBody} from '../../decorators/index.js';
 
@@ -15,5 +15,8 @@ authRouter.post('/signup', isEmptyBody, validateBody(userSignupSchema), authCont
 
 authRouter.post('/signin', isEmptyBody, validateBody(userSigninSchema), authController.signin);
 
+authRouter.get('/current', authenticate, authController.getCurrent);
+
+authRouter.post('/signout', authenticate, authController.signout);
 
 export default authRouter;

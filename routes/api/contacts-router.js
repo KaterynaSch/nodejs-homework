@@ -2,13 +2,15 @@ import express from "express";
 
 import contactsController from "../../controllers/contacts-controller.js";
 
-import {isEmptyBody, isEmptyBodyForFavorite, isValidId} from "../../midllewares/index.js";//ф-ція перевіряє чи тіло не пусте
+import {isEmptyBody, isEmptyBodyForFavorite, isValidId, authenticate} from "../../midllewares/index.js";//ф-ція перевіряє чи тіло не пусте
 
 import {validateBody} from '../../decorators/index.js';
 
 import {contactAddSchema, contactFavoriteSchema, contactUpdateSchema } from "../../models/Contact.js";
 
 const contactsRouter = express.Router();
+
+contactsRouter.use(authenticate);//приватні маршрути проходять через цю middleware і тільки при умові правильного токена обробляється запит
 
 contactsRouter.get('/', contactsController.getAll);
 
