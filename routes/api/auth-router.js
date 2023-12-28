@@ -8,7 +8,6 @@ import {validateBody} from '../../decorators/index.js';
 
 import { userSignupSchema, userSigninSchema } from "../../models/User.js";
 
-
 const authRouter = express.Router();
 
 authRouter.post('/signup', isEmptyBody, validateBody(userSignupSchema), authController.signup);

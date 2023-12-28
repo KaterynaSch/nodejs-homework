@@ -16,14 +16,14 @@ const app = express();
 // налаштування логування
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
-// додавання логувння як middleware
+// додавання логування як middleware
 app.use(logger(formatsLogger));
 
 app.use(cors());
 
 app.use(express.json());//middleware що перевідяє чи є у об'єкті що надходить contentType
 
-app.use("/api/auth", authRouter);//група маршрутів аутентифікації
+app.use("/users", authRouter);//група маршрутів аутентифікації
 app.use("/api/contacts", contactsRouter);
 
 // обробник ситуації якщо запит прийшов на адресу, якої немає

@@ -1,7 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from 'dotenv/config';
-
 import User from "../models/User.js";
 import {ctrlWrapper} from '../decorators/index.js';
 import {HttpError} from '../helpers/index.js';
@@ -15,18 +14,19 @@ const signup = async(req, res) => {
         throw HttpError(409, 'Email in use')
     }
     const hashPassword = await bcrypt.hash(password,10);// хешування пароля
-
     const newUser = await User.create({...req.body, password: hashPassword});
     res.status(201).json({
-        email: newUser.email,
-        subscription: newUser.subscription
+        user:{
+            email: newUser.email,
+            subscription: newUser.subscription
+        }
     });
 
 };
 
 const signin = async(req, res) => {
     const {email, password} = req.body;
-    const user = await User.findOne({email});
+    const user = await User.findOne({ email });
     if(!user){
         throw HttpError(401, 'Email or password is wrong');
     }
@@ -41,6 +41,10 @@ const signin = async(req, res) => {
     await User.findByIdAndUpdate(user._id, {token});//збереження токена в базі
     res.json({
         token,
+        user:{
+            email: user.email,
+            subscription: user.subscription,
+        }
     })
 }
 
@@ -54,7 +58,8 @@ const getCurrent = async(req, res) => {
 const signout = async(req, res) => {
     const {_id} = req.user;
     await User.findByIdAndUpdate(_id, {token:""});
-    res.sendStatus(204);
+    res.status(204).send();
+    
 }
 
 export default {

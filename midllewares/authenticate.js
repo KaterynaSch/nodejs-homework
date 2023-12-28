@@ -4,13 +4,14 @@ import { HttpError } from "../helpers/index.js";
 import User from "../models/User.js";
 
 const {JWT_SECRET} = process.env;
+
 const authenticate = async(req, res, next) => {
     const {authorization} = req.headers;
     if(!authorization){
         return next(HttpError(401, 'Not authorized'))
     }
     const [bearer, token] = authorization.split(" ");
-    if(bearer !== "Bearer"){//перев. чи є першим словом "bearer"
+    if(bearer !== "Bearer"){
         return next(HttpError(401));
     }
     try {
@@ -25,6 +26,6 @@ const authenticate = async(req, res, next) => {
         return next(HttpError(401, error.message));
     } 
     
-};
+}; 
 
 export default authenticate;
