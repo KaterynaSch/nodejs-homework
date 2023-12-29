@@ -12,7 +12,7 @@ const authenticate = async(req, res, next) => {
     }
     const [bearer, token] = authorization.split(" ");
     if(bearer !== "Bearer"){
-        return next(HttpError(401));
+        return next(HttpError(401, 'Not authorized'));
     }
     try {
         const {id} = jwt.verify(token, JWT_SECRET);//перев. чи токен валідний
@@ -22,8 +22,8 @@ const authenticate = async(req, res, next) => {
         }
         req.user = user;//додавання інформації про користувача, який робить запит
         next();       
-    } catch (error) {
-        return next(HttpError(401, error.message));
+    } catch (error) {        
+        next(HttpError(401, error.message));
     } 
     
 }; 

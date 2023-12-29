@@ -4,6 +4,7 @@ import { handleSaveError, preUpdate } from "./hooks.js";
 
 const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const subscriptionValue = ["starter", "pro", "business"];
+
 const userSchema = new Schema({
     email: {
         type: String,
@@ -39,6 +40,10 @@ export const userSignupSchema = Joi.object({//схема реєстрації
 export const userSigninSchema = Joi.object({//схема логінізації
     email: Joi.string().pattern(emailRegex).required(),
     password: Joi.string().required(),
+});
+
+export const usersUpdateSubscribeSchema = Joi.object({//схема оновлення підписки
+    subscription: Joi.string().required(),
 });
 
 const User = model('user', userSchema);

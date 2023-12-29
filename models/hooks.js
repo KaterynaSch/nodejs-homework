@@ -7,4 +7,4 @@ export const preUpdate =  function(next){
     this.options.new = true;//повертати оновлений об'єкт 
     this.options.runValidators = true;//і під час оновлення теж проводити перевірку
     next();
-}
+};

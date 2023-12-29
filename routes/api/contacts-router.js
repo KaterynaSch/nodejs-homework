@@ -1,11 +1,8 @@
 import express from "express";
 
 import contactsController from "../../controllers/contacts-controller.js";
-
-import {isEmptyBody, isEmptyBodyForFavorite, isValidId, authenticate} from "../../midllewares/index.js";//ф-ція перевіряє чи тіло не пусте
-
+import {isEmptyBody, isEmptyBodyForFavorite, isValidId, authenticate} from "../../midllewares/index.js";
 import {validateBody} from '../../decorators/index.js';
-
 import {contactAddSchema, contactFavoriteSchema, contactUpdateSchema } from "../../models/Contact.js";
 
 const contactsRouter = express.Router();

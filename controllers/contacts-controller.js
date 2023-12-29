@@ -1,20 +1,16 @@
 import Contact from '../models/Contact.js';
-
 import {ctrlWrapper} from '../decorators/index.js';
-
 import {HttpError} from '../helpers/index.js';
-// import { populate } from 'dotenv';
 
 const getAll = async(req, res) => {    
-        const {_id: owner} = req.user;
-        // console.log(req.query);//параметри запиту
+        const {_id: owner} = req.user;        
         const {page = 1, limit = 20, ...filterParams} = req.query;
         const skip = (page - 1) * limit;
-        const filter = {owner, ...filterParams};
-        // if(favorite !== undefined){
-        //         filter.favorite = favorite;
-        // }
+        const filter = {owner, ...filterParams};        
         const result = await Contact.find(filter, "", {skip, limit}).populate("owner", "email subscription");
+        if(!result.length){
+                throw HttpError(404, `No contacts added yet`);            
+            }
         const total = result.length;        
         res.json({
                 result,
@@ -32,8 +28,7 @@ const getById = async(req, res) => {
         res.json(result);   
 };
 
-const add = async(req, res) => {
-        // console.log(req.user);
+const add = async(req, res) => {       
         const {_id: owner} = req.user;
         const result = await Contact.create({...req.body, owner});
         res.status(201).json(result);

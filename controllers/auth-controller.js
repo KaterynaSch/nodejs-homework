@@ -46,25 +46,40 @@ const signin = async(req, res) => {
             subscription: user.subscription,
         }
     })
-}
+};
 
 const getCurrent = async(req, res) => {
-    const {email, subscription} = req.user;//отримання інфи про юзера якщо токен валідний
+    const {email, subscription} = req.user;//отримання інфо про юзера якщо токен валідний
     res.json({
         email,
         subscription
     })
-}
+};
+
 const signout = async(req, res) => {
     const {_id} = req.user;
     await User.findByIdAndUpdate(_id, {token:""});
-    res.status(204).send();
-    
-}
+    res.status(204).send();    
+};
+
+const updateSubscription = async(req, res) => {
+    const subscriptionValue = ["starter", "pro", "business"];
+    const {subscription} = req.body;    
+    const {_id, email} = req.user;    
+    if(!(subscriptionValue.includes(subscription))){
+        throw HttpError(401, 'Subscribtion value is wrong')
+    };
+    await User.findByIdAndUpdate(_id, req.body);
+    res.json({
+        email,        
+        subscription
+    });
+};
 
 export default {
     signup: ctrlWrapper(signup),
     signin: ctrlWrapper(signin),
     getCurrent: ctrlWrapper(getCurrent),
     signout: ctrlWrapper(signout),
+    updateSubscription: ctrlWrapper(updateSubscription),
 };

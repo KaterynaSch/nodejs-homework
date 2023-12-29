@@ -9,5 +9,6 @@ const isValidId =(req, res, next) => {
         return next(HttpError(400, `${id} is not valid id`));
     }
     next();
-}
+};
+
 export default isValidId;

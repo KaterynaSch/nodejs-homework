@@ -9,6 +9,6 @@ const validateBody = schema => {
         next();
     }
     return func;
-}
+};
 
 export default validateBody;

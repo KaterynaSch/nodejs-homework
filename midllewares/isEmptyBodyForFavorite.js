@@ -7,4 +7,5 @@ const isEmptyBodyForFavorite = async (req, res, next) => {
     }
     next();
 };
+
 export default isEmptyBodyForFavorite;
