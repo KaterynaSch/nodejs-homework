@@ -7,13 +7,13 @@ import { userSignupSchema, userSigninSchema, usersUpdateSubscribeSchema } from "
 
 const authRouter = express.Router();
 
-authRouter.post('/signup', isEmptyBody, validateBody(userSignupSchema), authController.signup);
+authRouter.post('/register', isEmptyBody, validateBody(userSignupSchema), authController.signup);
 
-authRouter.post('/signin', isEmptyBody, validateBody(userSigninSchema), authController.signin);
+authRouter.post('/login', isEmptyBody, validateBody(userSigninSchema), authController.signin);
 
 authRouter.get('/current', authenticate, authController.getCurrent);
 
-authRouter.post('/signout', authenticate, authController.signout);
+authRouter.post('/logout', authenticate, authController.signout);
 
 authRouter.patch('/update', authenticate, isEmptyBody, validateBody(usersUpdateSubscribeSchema), authController.updateSubscription);
 
