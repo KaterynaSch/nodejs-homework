@@ -1,3 +1,4 @@
+import fs from "fs/promises";
 import express from "express";
 import logger from "morgan";//для логування запитів
 import cors from "cors";
@@ -18,6 +19,7 @@ app.use(logger(formatsLogger));
 app.use(cors());
 
 app.use(express.json());//middleware що перевідяє чи є у об'єкті що надходить contentType
+app.use(express.static('public'));//дозволяє пкредау ф-лів на frontend лише з вказаної папки
 
 app.use("/users", authRouter);//група маршрутів аутентифікації
 app.use("/api/contacts", contactsRouter);

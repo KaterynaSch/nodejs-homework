@@ -1,7 +1,7 @@
 import express from "express";
 
 import contactsController from "../../controllers/contacts-controller.js";
-import {isEmptyBody, isEmptyBodyForFavorite, isValidId, authenticate} from "../../midllewares/index.js";
+import {isEmptyBody, isEmptyBodyForFavorite, isValidId, authenticate, upload} from "../../midllewares/index.js";
 import {validateBody} from '../../decorators/index.js';
 import {contactAddSchema, contactFavoriteSchema, contactUpdateSchema } from "../../models/Contact.js";
 
@@ -12,8 +12,9 @@ contactsRouter.use(authenticate);//приватні маршрути прохо�
 contactsRouter.get('/', contactsController.getAll);
 
 contactsRouter.get('/:id', isValidId, contactsController.getById);
-
-contactsRouter.post('/', isEmptyBody, validateBody(contactAddSchema), contactsController.add);
+// upload.fields([{name: 'poster, maxCount: 1}]) - кілька полів
+// upload.array('poster', 8) - кілька файлів
+contactsRouter.post('/', upload.single('avatar'), isEmptyBody, validateBody(contactAddSchema), contactsController.add);
 
 contactsRouter.put('/:id', isValidId, isEmptyBody, validateBody(contactUpdateSchema), contactsController.updateById);
 
