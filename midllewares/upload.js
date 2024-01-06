@@ -18,7 +18,7 @@ const limits = {//обмеження розміру файлу -5 Мб
 
 const fileFilter = (req, file, cb) => {//виконується до збереження
     const extention = file.originalname.split('.').pop();
-    if(extention === "exe") { //фільтрю файлів за розширенням
+    if(extention === "jpg") { //фільтр файлів за розширенням
         return cb(HttpError(400, 'Invalid file extention'));        
     }
     cb(null, true);

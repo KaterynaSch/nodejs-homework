@@ -16,12 +16,7 @@ const contactSchema = new Schema({
     favorite: {
         type: Boolean,
         default: false,
-    },
-    avatar: {
-        type: String,
-        avatarURL: String,
-        // required: true
-    },
+    },    
     owner: {
         type: Schema.Types.ObjectId,
         ref: 'user',
@@ -47,7 +42,7 @@ export const contactUpdateSchema = Joi.object({
     name: Joi.string(),
     email: Joi.string(),
     phone: Joi.string(),
-    favorite: Joi.boolean()
+    favorite: Joi.boolean(),
 });
 
 //схема для оновлення одного обов'язкового поля 

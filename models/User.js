@@ -16,6 +16,9 @@ const userSchema = new Schema({
         type: String,
         required: [true, 'Set password for user'],
     },
+    avatarURL:{ 
+        type: String,
+    },
     subscription:{
         type: String,
         enum: subscriptionValue,
@@ -33,7 +36,8 @@ userSchema.post("findOneAndUpdate", handleSaveError);
 
 export const userSignupSchema = Joi.object({//схема реєстрації
     email: Joi.string().pattern(emailRegex).required(),
-    password: Joi.string().required(),
+    password: Joi.string().required(),    
+    avatarURL: Joi.string(),
     subscription: Joi.string(),
 });
 
@@ -43,8 +47,12 @@ export const userSigninSchema = Joi.object({//схема логінізації
 });
 
 export const usersUpdateSubscribeSchema = Joi.object({//схема оновлення підписки
-    subscription: Joi.string().required(),
+    subscription: Joi.required(),
 });
+
+export const usersUpdateAvatarSchema = Joi.object({
+    avatarURL: Joi.binary().required(),
+})
 
 const User = model('user', userSchema);
 
