@@ -18,7 +18,7 @@ const signup = async(req, res) => {
     if(user){
         throw HttpError(409, 'Email in use')
     }   
-    const avatarURL = gravatar.url(email, {s: '250', r: 'g', d: 'monsterid'}, false);    
+    const avatarURL = gravatar.url(email, {s: '100', r: 'g', d: 'monsterid'}, false);    
     const hashPassword = await bcrypt.hash(password,10);// хешування пароля
     const newUser = await User.create({...req.body, avatarURL, password: hashPassword});
     res.status(201).json({
@@ -68,22 +68,22 @@ const signout = async(req, res) => {
 };
 
 const updateAvatar = async(req, res) => {
-    // const {avatarURL} = req.file;
-    // console.log(avatarURL);
+    const {_id, avatarURL: oldAvatarURL } = req.user;
+    
+    const {path: oldPath, filename} = req.file;
+    const newPath = path.join(avatarsPath, filename);
+    await fs.rename(oldPath, newPath);//переміщення файлу з temp в public/avatars   
+    const avatarURL = path.join('avatars', filename);//створили назву файлу
+    const result = await User.findByIdAndUpdate(_id, {avatarURL}); 
 
-    console.log(req.file);
-    console.log(req.body);
-    // const {path: oldPath, filename} = req.file;
-    // const newPath = path.join(avatarsPath, filename);
-    // await fs.rename(oldPath, newPath);//переміщення файлу з temp в public/avatars
-    // console.log(oldPath);
-    // console.log(newPath);
-
-    // const avatarURL = path.join('avatars', httpUrl);//створили назву файлу
-
-    // const {_id} = req.user;
-    // await User.findByIdAndUpdate(_id, req.body);
-    // res.json({avatarURL})
+    if(avatarURL){//видалення старого файлу, якщо він був
+        const oldAvatarPath = path.join(path.resolve('public', oldAvatarURL));//шлях до старого файлу
+        console.log(oldAvatarPath);
+        await fs.unlink(oldAvatarPath);
+    }
+       
+    res.json({
+        avatarURL: result.avatarURL});
 }
 
 const updateSubscription = async(req, res) => {
@@ -108,12 +108,3 @@ export default {
     updateAvatar: ctrlWrapper(updateAvatar),
     updateSubscription: ctrlWrapper(updateSubscription),
 };
- // console.log(req.file);
-    // console.log(req.body);
-    // const {path: oldPath, filename} = req.file;
-    // const newPath = path.join(avatarsPath, filename);
-    // await fs.rename(oldPath, newPath);//переміщення файлу з temp в public/avatars
-    // console.log(oldPath);
-    // console.log(newPath);
-
-    // const avatarURL = path.join('avatars', httpUrl);//створили назву файлу

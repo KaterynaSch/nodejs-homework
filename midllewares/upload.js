@@ -18,7 +18,7 @@ const limits = {//обмеження розміру файлу -5 Мб
 
 const fileFilter = (req, file, cb) => {//виконується до збереження
     const extention = file.originalname.split('.').pop();
-    if(extention === "jpg") { //фільтр файлів за розширенням
+    if(extention === "txt") { //фільтр файлів за розширенням
         return cb(HttpError(400, 'Invalid file extention'));        
     }
     cb(null, true);
@@ -27,7 +27,7 @@ const fileFilter = (req, file, cb) => {//виконується до збере�
 const upload = multer({
     storage,
     limits,
-    // fileFilter
+    fileFilter,
 });
 
 export default upload;
