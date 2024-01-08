@@ -4,6 +4,7 @@ import dotenv from 'dotenv/config';
 import fs from 'fs/promises';
 import path from "path";
 import gravatar from 'gravatar';
+
 import User from "../models/User.js";
 import {ctrlWrapper} from '../decorators/index.js';
 import {HttpError} from '../helpers/index.js';
@@ -78,7 +79,6 @@ const updateAvatar = async(req, res) => {
 
     if(avatarURL){//видалення старого файлу, якщо він був
         const oldAvatarPath = path.join(path.resolve('public', oldAvatarURL));//шлях до старого файлу
-        console.log(oldAvatarPath);
         await fs.unlink(oldAvatarPath);
     }
        
