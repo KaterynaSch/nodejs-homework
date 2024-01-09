@@ -68,20 +68,20 @@ const signout = async(req, res) => {
     res.status(204).send();    
 };
 
-const updateAvatar = async(req, res) => {
-    const {_id, avatarURL: oldAvatarURL } = req.user;
-    
+const updateAvatar = async(req, res) => {    
+    const {_id, avatarURL: oldURL } = req.user;    
+
     const {path: oldPath, filename} = req.file;
     const newPath = path.join(avatarsPath, filename);
     await fs.rename(oldPath, newPath);//переміщення файлу з temp в public/avatars   
     const avatarURL = path.join('avatars', filename);//створили назву файлу
+
     const result = await User.findByIdAndUpdate(_id, {avatarURL}); 
 
-    if(avatarURL){//видалення старого файлу, якщо він був
-        const oldAvatarPath = path.join(path.resolve('public', oldAvatarURL));//шлях до старого файлу
+    if(oldURL.startsWith('avatars')){//видалення старого файлу, якщо він був
+        const oldAvatarPath = path.resolve('public', oldURL);//шлях до старого файлу        
         await fs.unlink(oldAvatarPath);
-    }
-       
+    }       
     res.json({
         avatarURL: result.avatarURL});
 }
