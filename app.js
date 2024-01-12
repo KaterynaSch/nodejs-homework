@@ -3,6 +3,8 @@ import express from "express";
 import logger from "morgan";//для логування запитів
 import cors from "cors";
 import dotenv from 'dotenv';// import dotenv from 'dotenv/config'; скорочений варіант
+// import ElasticEmail from '@elasticemail/elasticemail-client';
+
 
 import contactsRouter from "./routes/api/contacts-router.js";
 import authRouter from "./routes/api/auth-router.js";
@@ -10,7 +12,42 @@ import authRouter from "./routes/api/auth-router.js";
 dotenv.config();//знаходить .env файл і додає його вміст до глобального об'єкту process.env в момент запуску проекту
 const app = express();
 
+// const defaultClient = ElasticEmail.ApiClient.instance;
+
+// const {apikey} = defaultClient.authentications;
+// apikey.apiKey = ELASTICEMAIL_API_KEY;
+
+// const api = new ElasticEmail.EmailsApi()
+ 
+// const email = ElasticEmail.EmailMessageData.constructFromObject({
+//   Recipients: [
+//     new ElasticEmail.EmailRecipient("daxovej285@telvetto.com")
+//   ],
+//   Content: {
+//     Body: [//зміст листа
+//       ElasticEmail.BodyPart.constructFromObject({
+//         ContentType: "HTML",
+//         Content: "<strong>Test email</strong>"
+//       })
+//     ],
+//     Subject: "Test email",//тема листа
+//     From: "ELASTICEMAIL_EMAIL_FROM"
+//   }
+// });
+ 
+// const callback = function(error, data, response) {
+//   if (error) {
+//     console.error(error);
+//   } else {
+//     console.log('API called successfully.');
+//   }
+// };
+// api.emailsPost(email, callback);
+
+
 // налаштування логування
+
+
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
 // додавання логування як middleware
@@ -34,5 +71,6 @@ app.use((err, req, res, next) => {
   res.status(status).json({
      message, })
 });
+
 
 export default app;
