@@ -45,14 +45,12 @@ userSchema.post("findOneAndUpdate", handleSaveError);
 export const userSignupSchema = Joi.object({//схема реєстрації
     email: Joi.string().pattern(emailRegex).required(),
     password: Joi.string().required(),
-    subscription: Joi.string(),
-    // verificationToken: Joi.string().required(),
+    subscription: Joi.string(),    
 });
 
 export const userEmailSchema = Joi.object({//схема логінізації
-    email: Joi.string().pattern(emailRegex).required(),    
-}).messages({
-    "any.required": 'missing required field "email"'});
+    email: Joi.string().pattern(emailRegex).required(),
+});
 
 export const userSigninSchema = Joi.object({//схема логінізації
     email: Joi.string().pattern(emailRegex).required(),
